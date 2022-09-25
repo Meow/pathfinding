@@ -40,11 +40,11 @@ impl Map {
             self.generate_adjacent();
         }
 
-        if !self.room_exists(&pos + &Vector2 { x: 0.0, y: -5.0 }) && self.gen_top(&id, &pos) {
+        if !self.room_exists(&pos + &Vector2 { x: 0.0, y: 5.0 }) && self.gen_top(&id, &pos) {
             self.generate_adjacent();
         }
 
-        if !self.room_exists(&pos + &Vector2 { x: 0.0, y: 5.0 }) && self.gen_bottom(&id, &pos) {
+        if !self.room_exists(&pos + &Vector2 { x: 0.0, y: -5.0 }) && self.gen_bottom(&id, &pos) {
             self.generate_adjacent();
         }
     }
@@ -162,7 +162,7 @@ impl Map {
             }
 
             let mut room = Room::prefab(&pick);
-            room.pos = pos + &Vector2 { x: 0.0, y: -5.0 };
+            room.pos = pos + &Vector2 { x: 0.0, y: 5.0 };
             self.rooms.push(room);
             true
         } else {
@@ -257,7 +257,7 @@ impl Map {
             }
 
             let mut room = Room::prefab(&pick);
-            room.pos = pos + &Vector2 { x: 0.0, y: 5.0 };
+            room.pos = pos + &Vector2 { x: 0.0, y: -5.0 };
             self.rooms.push(room);
             true
         } else {

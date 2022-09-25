@@ -42,7 +42,7 @@ Dir.glob("*.prefab").sort.each do |fn|
     end
 
     pos[0] = 0
-    pos[1] += 1
+    pos[1] -= 1
   end
 
   out += "        ],\n         exits: vec![\n"

@@ -14,6 +14,7 @@ mkShell rec {
     gcc11
     pkgconfig
     llvmPackages_latest.bintools
+    mold
   ];
 
   buildInputs = [
