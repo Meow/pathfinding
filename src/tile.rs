@@ -9,14 +9,16 @@ pub enum TileType {
     Clip,
     Brush,
     Item,
+    PortalA,
+    PortalB,
     None,
 }
 
 #[derive(Clone, Debug, Component)]
 pub struct Tile {
-    pos: Vector2,
-    tile_type: TileType,
-    texture_path: String,
+    pub pos: Vector2,
+    pub tile_type: TileType,
+    pub texture_path: String,
 }
 
 impl fmt::Display for TileType {
@@ -36,5 +38,15 @@ impl fmt::Display for TileType {
 impl fmt::Display for Tile {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "Tile(pos: {}, type: {})", self.pos, self.tile_type)
+    }
+}
+
+impl Default for Tile {
+    fn default() -> Self {
+        Self {
+            tile_type: TileType::None,
+            texture_path: "path_32x32.png".to_string(),
+            pos: Vector2 { x: 0.0, y: 0.0 },
+        }
     }
 }
