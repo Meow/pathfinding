@@ -16,10 +16,21 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
 
     let map = Map::random();
 
-    commands.spawn_bundle(SpriteBundle {
-        texture: asset_server.load("wall_32x32.png"),
-        ..default()
-    });
+    for room in &map.rooms {
+        for tile in &room.tiles {
+            commands
+                .spawn_bundle(SpriteBundle {
+                    texture: asset_server.load(&tile.texture_path),
+                    transform: Transform::from_xyz(
+                        room.pos.x * 32.0 + tile.pos.x * 32.0,
+                        room.pos.y * 32.0 + tile.pos.y * 32.0,
+                        0.,
+                    ),
+                    ..default()
+                })
+                .insert(tile.clone());
+        }
+    }
 }
 
 fn main() {

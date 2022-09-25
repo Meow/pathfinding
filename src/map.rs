@@ -40,11 +40,11 @@ impl Map {
             self.generate_adjacent();
         }
 
-        if !self.room_exists(&pos + &Vector2 { x: 0.0, y: 5.0 }) && self.gen_top(&id, &pos) {
+        if !self.room_exists(&pos + &Vector2 { x: 0.0, y: -5.0 }) && self.gen_top(&id, &pos) {
             self.generate_adjacent();
         }
 
-        if !self.room_exists(&pos + &Vector2 { x: 0.0, y: -5.0 }) && self.gen_bottom(&id, &pos) {
+        if !self.room_exists(&pos + &Vector2 { x: 0.0, y: 5.0 }) && self.gen_bottom(&id, &pos) {
             self.generate_adjacent();
         }
     }
@@ -96,7 +96,9 @@ impl Map {
                 return false;
             }
 
-            while self.has_exit && pick == &"exit" {
+            let room_count = self.rooms.len();
+
+            while (self.has_exit || room_count < 10) && pick == &"exit" {
                 pick = variants
                     .choose(&mut rand::thread_rng())
                     .unwrap_or_else(|| &"");
@@ -143,7 +145,9 @@ impl Map {
                 return false;
             }
 
-            while self.has_exit && pick == &"exit" {
+            let room_count = self.rooms.len();
+
+            while (self.has_exit || room_count < 10) && pick == &"exit" {
                 pick = variants
                     .choose(&mut rand::thread_rng())
                     .unwrap_or_else(|| &"");
@@ -158,7 +162,7 @@ impl Map {
             }
 
             let mut room = Room::prefab(&pick);
-            room.pos = pos + &Vector2 { x: 0.0, y: 5.0 };
+            room.pos = pos + &Vector2 { x: 0.0, y: -5.0 };
             self.rooms.push(room);
             true
         } else {
@@ -203,7 +207,9 @@ impl Map {
                 return false;
             }
 
-            while self.has_exit && pick == &"exit" {
+            let room_count = self.rooms.len();
+
+            while (self.has_exit || room_count < 10) && pick == &"exit" {
                 pick = variants
                     .choose(&mut rand::thread_rng())
                     .unwrap_or_else(|| &"");
@@ -251,7 +257,7 @@ impl Map {
             }
 
             let mut room = Room::prefab(&pick);
-            room.pos = pos + &Vector2 { x: 0.0, y: -5.0 };
+            room.pos = pos + &Vector2 { x: 0.0, y: 5.0 };
             self.rooms.push(room);
             true
         } else {
