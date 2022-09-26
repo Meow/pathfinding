@@ -2107,7 +2107,7 @@ impl Room {
                     Tile {
                         pos: Vec2 { x: 2.0, y: -3.0 },
                         tile_type: TileType::Spawn,
-                        texture_path: "path_32x32.png".to_string(),
+                        texture_path: "spawn_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 3.0, y: -3.0 },

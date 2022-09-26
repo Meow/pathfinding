@@ -34,6 +34,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     });
 
     let map = Map::random();
+    let mut spawn_pos = Vec2::default();
 
     for room in &map.rooms {
         for tile in &room.tiles {
@@ -48,13 +49,17 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                     ..default()
                 })
                 .insert(tile.clone());
+
+            if tile.tile_type == TileType::Spawn {
+                spawn_pos = (room.pos + tile.pos) * 32.0;
+            }
         }
     }
 
     commands
         .spawn_bundle(SpriteBundle {
             texture: asset_server.load("player_32x32.png"),
-            transform: Transform::from_xyz(0., 0., 1.0),
+            transform: Transform::from_xyz(spawn_pos.x, spawn_pos.y + 6.0, 1.0),
             ..default()
         })
         .insert(Player::default())
