@@ -114,8 +114,8 @@ fn update(
         velocity.vel = velocity
             .vel
             .lerp(velocity.vel + velocity.accel, time.delta_seconds())
-            .clamp_length(0.0, player.max_speed)
-            .lerp(Vec2::default(), time.delta_seconds() * velocity.friction);
+            .lerp(Vec2::default(), time.delta_seconds() * velocity.friction)
+            .clamp_length(0.0, player.max_speed);
 
         for (tile, transform) in tile_query.iter() {
             if tile.tile_type != TileType::Clip {
