@@ -1,8 +1,7 @@
-use crate::vector2::Vector2;
 use bevy::prelude::*;
 use std::fmt;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum TileType {
     Spawn,
     Exit,
@@ -16,7 +15,7 @@ pub enum TileType {
 
 #[derive(Clone, Debug, Component)]
 pub struct Tile {
-    pub pos: Vector2,
+    pub pos: Vec2,
     pub tile_type: TileType,
     pub texture_path: String,
 }
@@ -46,7 +45,7 @@ impl Default for Tile {
         Self {
             tile_type: TileType::None,
             texture_path: "path_32x32.png".to_string(),
-            pos: Vector2 { x: 0.0, y: 0.0 },
+            pos: Vec2 { x: 0.0, y: 0.0 },
         }
     }
 }

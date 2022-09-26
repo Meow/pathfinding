@@ -1,5 +1,4 @@
 use crate::room::Room;
-use crate::vector2::Vector2;
 use bevy::prelude::*;
 use rand::seq::SliceRandom;
 
@@ -32,24 +31,24 @@ impl Map {
         let id = last_room.id.clone();
         let pos = last_room.pos.clone();
 
-        if !self.room_exists(&pos + &Vector2 { x: -5.0, y: 0.0 }) && self.gen_left(&id, &pos) {
+        if !self.room_exists(pos + Vec2 { x: -5.0, y: 0.0 }) && self.gen_left(&id, &pos) {
             self.generate_adjacent();
         }
 
-        if !self.room_exists(&pos + &Vector2 { x: 5.0, y: 0.0 }) && self.gen_right(&id, &pos) {
+        if !self.room_exists(pos + Vec2 { x: 5.0, y: 0.0 }) && self.gen_right(&id, &pos) {
             self.generate_adjacent();
         }
 
-        if !self.room_exists(&pos + &Vector2 { x: 0.0, y: 5.0 }) && self.gen_top(&id, &pos) {
+        if !self.room_exists(pos + Vec2 { x: 0.0, y: 5.0 }) && self.gen_top(&id, &pos) {
             self.generate_adjacent();
         }
 
-        if !self.room_exists(&pos + &Vector2 { x: 0.0, y: -5.0 }) && self.gen_bottom(&id, &pos) {
+        if !self.room_exists(pos + Vec2 { x: 0.0, y: -5.0 }) && self.gen_bottom(&id, &pos) {
             self.generate_adjacent();
         }
     }
 
-    fn room_exists(&self, pos: Vector2) -> bool {
+    fn room_exists(&self, pos: Vec2) -> bool {
         for room in &self.rooms {
             if room.pos.x == pos.x && room.pos.y == pos.y {
                 return true;
@@ -59,7 +58,7 @@ impl Map {
         false
     }
 
-    fn gen_left(&mut self, id: &String, pos: &Vector2) -> bool {
+    fn gen_left(&mut self, id: &String, pos: &Vec2) -> bool {
         let can_generate = match id.as_str() {
             "spawn" => true,
             "c_room_1" => true,
@@ -113,7 +112,7 @@ impl Map {
             }
 
             let mut room = Room::prefab(&pick);
-            room.pos = pos + &Vector2 { x: -5.0, y: 0.0 };
+            room.pos = *pos + Vec2 { x: -5.0, y: 0.0 };
             self.rooms.push(room);
             true
         } else {
@@ -121,7 +120,7 @@ impl Map {
         }
     }
 
-    fn gen_top(&mut self, id: &String, pos: &Vector2) -> bool {
+    fn gen_top(&mut self, id: &String, pos: &Vec2) -> bool {
         let can_generate = match id.as_str() {
             "spawn" => true,
             "c_room_2" => true,
@@ -162,7 +161,7 @@ impl Map {
             }
 
             let mut room = Room::prefab(&pick);
-            room.pos = pos + &Vector2 { x: 0.0, y: 5.0 };
+            room.pos = *pos + Vec2 { x: 0.0, y: 5.0 };
             self.rooms.push(room);
             true
         } else {
@@ -170,7 +169,7 @@ impl Map {
         }
     }
 
-    fn gen_right(&mut self, id: &String, pos: &Vector2) -> bool {
+    fn gen_right(&mut self, id: &String, pos: &Vec2) -> bool {
         let can_generate = match id.as_str() {
             "spawn" => true,
             "m_room_0" => true,
@@ -224,7 +223,7 @@ impl Map {
             }
 
             let mut room = Room::prefab(&pick);
-            room.pos = pos + &Vector2 { x: 5.0, y: 0.0 };
+            room.pos = *pos + Vec2 { x: 5.0, y: 0.0 };
             self.rooms.push(room);
             true
         } else {
@@ -232,7 +231,7 @@ impl Map {
         }
     }
 
-    fn gen_bottom(&mut self, id: &String, pos: &Vector2) -> bool {
+    fn gen_bottom(&mut self, id: &String, pos: &Vec2) -> bool {
         let can_generate = match id.as_str() {
             "c_room_0" => true,
             "c_room_1" => true,
@@ -248,7 +247,7 @@ impl Map {
                 "c_room_2", "c_room_3", "d_room_1", "d_room_1", "d_room_1", "d_room_1", "d_room_1",
                 "m_room_0", "m_room_1", "m_room_3",
             ];
-            let mut pick = variants
+            let pick = variants
                 .choose(&mut rand::thread_rng())
                 .unwrap_or_else(|| &"");
 
@@ -257,7 +256,7 @@ impl Map {
             }
 
             let mut room = Room::prefab(&pick);
-            room.pos = pos + &Vector2 { x: 0.0, y: -5.0 };
+            room.pos = *pos + Vec2 { x: 0.0, y: -5.0 };
             self.rooms.push(room);
             true
         } else {

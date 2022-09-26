@@ -36,7 +36,7 @@ Dir.glob("*.prefab").sort.each do |fn|
           exits.push [pos[0], pos[1]]
         end
 
-        out += "            Tile { pos: Vector2 { x: #{pos[0]}.0, y: #{pos[1]}.0 }, tile_type: TileType::#{tiletype}, texture_path: \"#{texture_path(tiletype)}\".to_string() },\n"
+        out += "            Tile { pos: Vec2 { x: #{pos[0]}.0, y: #{pos[1]}.0 }, tile_type: TileType::#{tiletype}, texture_path: \"#{texture_path(tiletype)}\".to_string() },\n"
         pos[0] += 1
       end
     end
@@ -46,7 +46,7 @@ Dir.glob("*.prefab").sort.each do |fn|
   end
 
   out += "        ],\n         exits: vec![\n"
-  out += exits.map { |e| "            Vector2 { x: #{e[0]}.0, y: #{e[1]}.0 }," }.join("\n")
+  out += exits.map { |e| "            Vec2 { x: #{e[0]}.0, y: #{e[1]}.0 }," }.join("\n")
   out += "\n        ],\n        ..default()\n"
   out += "    },\n"
 end

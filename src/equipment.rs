@@ -7,6 +7,8 @@ pub struct Equipment {
     damage_mod: f32,
     defense_mod: f32,
     speed_mod: f32,
+    slots_mod: f32,
+    weight_mod: f32,
 }
 
 impl Equipable for Equipment {
@@ -28,5 +30,9 @@ impl Equipable for Equipment {
 
     fn get_speed_mod(&self) -> f32 {
         self.speed_mod
+    }
+
+    fn get_weight_mod(&self) -> f32 {
+        self.weight_mod
     }
 }

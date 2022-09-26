@@ -4,4 +4,5 @@ pub trait Equipable {
     fn get_damage_mod(&self) -> f32;
     fn get_defense_mod(&self) -> f32;
     fn get_speed_mod(&self) -> f32;
+    fn get_weight_mod(&self) -> f32;
 }
