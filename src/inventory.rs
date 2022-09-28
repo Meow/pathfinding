@@ -12,7 +12,7 @@ pub struct Inventory {
     items: Vec<Item>,
     equipment: Vec<Equipment>,
     max_items: u32,
-    equipment_slots: u32,
+    max_equipment: u32,
     max_weight: f32,
 }
 
@@ -33,12 +33,12 @@ fn partition<T>(a: &mut [T], cmp: &impl Fn(&T, &T) -> Ordering, low: isize, high
 
     loop {
         i += 1;
-        while i < high && cmp(&a[i as usize], &a[((high + low) / 2) as usize]) == Ordering::Less {
+        while i <= high && cmp(&a[i as usize], &a[((high + low) / 2) as usize]) == Ordering::Less {
             i += 1;
         }
 
         j -= 1;
-        while j > 0 && cmp(&a[j as usize], &a[((high + low) / 2) as usize]) == Ordering::Greater {
+        while j >= 0 && cmp(&a[j as usize], &a[((high + low) / 2) as usize]) == Ordering::Greater {
             j -= 1;
         }
 
@@ -196,7 +196,7 @@ impl Default for Inventory {
             items: vec![],
             equipment: vec![],
             max_items: 10,
-            equipment_slots: 3,
+            max_equipment: 3,
             max_weight: 10.0,
         }
     }

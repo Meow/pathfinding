@@ -37,7 +37,7 @@ impl fmt::Display for Item {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "Item(name: {}, price: {}, weight: {})",
+            "Item(name: '{}', price: ${:.2}, weight: {:.2}kg)",
             self.name, self.price, self.weight
         )
     }

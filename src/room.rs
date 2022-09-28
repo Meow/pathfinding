@@ -1109,8 +1109,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 2.0, y: -1.0 },
-                        tile_type: TileType::Brush,
-                        texture_path: "path_32x32.png".to_string(),
+                        tile_type: TileType::ExitPrelude,
+                        texture_path: "exit_prelude_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 3.0, y: -1.0 },
@@ -1216,8 +1216,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 1.0, y: 0.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 2.0, y: 0.0 },
@@ -1226,8 +1226,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 3.0, y: 0.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 4.0, y: 0.0 },
@@ -1236,8 +1236,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 0.0, y: -1.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 1.0, y: -1.0 },
@@ -1256,8 +1256,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 4.0, y: -1.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 0.0, y: -2.0 },
@@ -1286,8 +1286,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 0.0, y: -3.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 1.0, y: -3.0 },
@@ -1306,8 +1306,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 4.0, y: -3.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 0.0, y: -4.0 },
@@ -1316,8 +1316,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 1.0, y: -4.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 2.0, y: -4.0 },
@@ -1326,8 +1326,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 3.0, y: -4.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 4.0, y: -4.0 },
@@ -1453,8 +1453,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 1.0, y: -4.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 2.0, y: -4.0 },
@@ -1463,8 +1463,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 3.0, y: -4.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 4.0, y: -4.0 },
@@ -1802,8 +1802,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 4.0, y: -1.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 0.0, y: -2.0 },
@@ -1813,7 +1813,7 @@ impl Room {
                     Tile {
                         pos: Vec2 { x: 1.0, y: -2.0 },
                         tile_type: TileType::PortalA,
-                        texture_path: "wall_32x32.png".to_string(),
+                        texture_path: "portal_blue_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 2.0, y: -2.0 },
@@ -1852,8 +1852,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 4.0, y: -3.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 0.0, y: -4.0 },
@@ -1914,8 +1914,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 0.0, y: -1.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 1.0, y: -1.0 },
@@ -1955,7 +1955,7 @@ impl Room {
                     Tile {
                         pos: Vec2 { x: 3.0, y: -2.0 },
                         tile_type: TileType::PortalB,
-                        texture_path: "wall_32x32.png".to_string(),
+                        texture_path: "portal_orange_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 4.0, y: -2.0 },
@@ -1964,8 +1964,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 0.0, y: -3.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 1.0, y: -3.0 },
@@ -2026,8 +2026,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 1.0, y: 0.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 2.0, y: 0.0 },
@@ -2036,8 +2036,8 @@ impl Room {
                     },
                     Tile {
                         pos: Vec2 { x: 3.0, y: 0.0 },
-                        tile_type: TileType::Clip,
-                        texture_path: "wall_32x32.png".to_string(),
+                        tile_type: TileType::Brush,
+                        texture_path: "path_32x32.png".to_string(),
                     },
                     Tile {
                         pos: Vec2 { x: 4.0, y: 0.0 },

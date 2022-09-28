@@ -5,6 +5,7 @@ use std::fmt;
 pub enum TileType {
     Spawn,
     Exit,
+    ExitPrelude,
     Clip,
     Brush,
     Item,
@@ -25,6 +26,7 @@ impl fmt::Display for TileType {
         match self {
             TileType::Spawn => write!(f, "TileType::Spawn"),
             TileType::Exit => write!(f, "TileType::Exit"),
+            TileType::ExitPrelude => write!(f, "TileType::ExitPrelude"),
             TileType::Clip => write!(f, "TileType::Clip"),
             TileType::Brush => write!(f, "TileType::Brush"),
             TileType::Item => write!(f, "TileType::Item"),

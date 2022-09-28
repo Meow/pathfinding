@@ -1,11 +1,15 @@
 use crate::room::Room;
+use crate::tile::{Tile, TileType};
 use bevy::prelude::*;
-use rand::seq::SliceRandom;
+use rand::{seq::SliceRandom, Rng};
 
 #[derive(Clone, Debug, Component, Default)]
 pub struct Map {
     pub rooms: Vec<Room>,
+    pub objects: Vec<Tile>,
     has_exit: bool,
+    has_blue: bool,
+    has_orange: bool,
 }
 
 impl Map {
@@ -20,10 +24,18 @@ impl Map {
         self.rooms.push(room);
         self.generate_adjacent();
 
-        if !self.has_exit {
+        if !self.has_exit || !self.has_blue || !self.has_orange {
+            self.has_exit = false;
+            self.has_blue = false;
+            self.has_orange = false;
+
             self.rooms.clear();
             self.generate();
+
+            return;
         }
+
+        self.generate_items(15);
     }
 
     fn generate_adjacent(&mut self) {
@@ -45,6 +57,31 @@ impl Map {
 
         if !self.room_exists(pos + Vec2 { x: 0.0, y: -5.0 }) && self.gen_bottom(&id, &pos) {
             self.generate_adjacent();
+        }
+    }
+
+    fn generate_items(&mut self, item_count: u32) {
+        let mut rng = rand::thread_rng();
+        let mut items = 0;
+
+        while items < item_count {
+            for room in self.rooms.iter() {
+                for tile in room.tiles.iter() {
+                    if tile.tile_type == TileType::Brush && rng.gen::<f32>() > 0.99 {
+                        self.objects.push(Tile {
+                            pos: room.pos + tile.pos,
+                            tile_type: TileType::Item,
+                            texture_path: "cube_32x32.png".to_string(),
+                        });
+
+                        items += 1;
+
+                        if items >= item_count {
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -93,9 +130,7 @@ impl Map {
                 return false;
             }
 
-            let room_count = self.rooms.len();
-
-            while (self.has_exit || room_count < 10) && pick == &"exit" {
+            while (self.has_exit && pick == &"exit") || (self.has_blue && pick == &"p_room_blue") {
                 pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
 
                 if pick == &"" {
@@ -105,6 +140,8 @@ impl Map {
 
             if pick == &"exit" {
                 self.has_exit = true;
+            } else if pick == &"p_room_blue" {
+                self.has_blue = true;
             }
 
             let mut room = Room::prefab(pick);
@@ -191,9 +228,9 @@ impl Map {
                 return false;
             }
 
-            let room_count = self.rooms.len();
-
-            while (self.has_exit || room_count < 10) && pick == &"exit" {
+            while (self.has_exit && pick == &"exit")
+                || (self.has_orange && pick == &"p_room_orange")
+            {
                 pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
 
                 if pick == &"" {
@@ -203,6 +240,8 @@ impl Map {
 
             if pick == &"exit" {
                 self.has_exit = true;
+            } else if pick == &"p_room_orange" {
+                self.has_orange = true;
             }
 
             let mut room = Room::prefab(pick);

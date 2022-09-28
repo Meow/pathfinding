@@ -1,13 +1,19 @@
 def texture_path(t)
   case t
   when "Spawn"
-    "path_32x32.png"
+    "spawn_32x32.png"
   when "Exit"
     "exit_32x32.png"
+  when "ExitPrelude"
+    "exit_prelude_32x32.png"
   when "Clip"
     "wall_32x32.png"
   when "Brush"
     "path_32x32.png"
+  when "PortalA"
+    "portal_blue_32x32.png"
+  when "PortalB"
+    "portal_orange_32x32.png"
   else
     "wall_32x32.png"
   end
