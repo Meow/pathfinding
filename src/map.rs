@@ -2,7 +2,7 @@ use crate::room::Room;
 use bevy::prelude::*;
 use rand::seq::SliceRandom;
 
-#[derive(Clone, Debug, Component)]
+#[derive(Clone, Debug, Component, Default)]
 pub struct Map {
     pub rooms: Vec<Room>,
     has_exit: bool,
@@ -10,7 +10,7 @@ pub struct Map {
 
 impl Map {
     pub fn random() -> Self {
-        let mut map = Map::default();
+        let mut map = Self::default();
         map.generate();
         map
     }
@@ -29,7 +29,7 @@ impl Map {
     fn generate_adjacent(&mut self) {
         let last_room = self.rooms.last().unwrap();
         let id = last_room.id.clone();
-        let pos = last_room.pos.clone();
+        let pos = last_room.pos;
 
         if !self.room_exists(pos + Vec2 { x: -5.0, y: 0.0 }) && self.gen_left(&id, &pos) {
             self.generate_adjacent();
@@ -58,18 +58,18 @@ impl Map {
         false
     }
 
-    fn gen_left(&mut self, id: &String, pos: &Vec2) -> bool {
-        let can_generate = match id.as_str() {
-            "spawn" => true,
-            "c_room_1" => true,
-            "c_room_2" => true,
-            "m_room_0" => true,
-            "m_room_1" => true,
-            "m_room_2" => true,
-            "m_room_3" => true,
-            "exit" => true,
-            _ => false,
-        };
+    fn gen_left(&mut self, id: &str, pos: &Vec2) -> bool {
+        let can_generate = matches!(
+            id,
+            "spawn"
+                | "c_room_1"
+                | "c_room_2"
+                | "m_room_0"
+                | "m_room_1"
+                | "m_room_2"
+                | "m_room_3"
+                | "exit"
+        );
 
         if can_generate {
             let variants = vec![
@@ -87,9 +87,7 @@ impl Map {
                 "m_room_3",
                 "p_room_blue",
             ];
-            let mut pick = variants
-                .choose(&mut rand::thread_rng())
-                .unwrap_or_else(|| &"");
+            let mut pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
 
             if pick == &"" {
                 return false;
@@ -98,9 +96,7 @@ impl Map {
             let room_count = self.rooms.len();
 
             while (self.has_exit || room_count < 10) && pick == &"exit" {
-                pick = variants
-                    .choose(&mut rand::thread_rng())
-                    .unwrap_or_else(|| &"");
+                pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
 
                 if pick == &"" {
                     return false;
@@ -111,7 +107,7 @@ impl Map {
                 self.has_exit = true;
             }
 
-            let mut room = Room::prefab(&pick);
+            let mut room = Room::prefab(pick);
             room.pos = *pos + Vec2 { x: -5.0, y: 0.0 };
             self.rooms.push(room);
             true
@@ -120,25 +116,18 @@ impl Map {
         }
     }
 
-    fn gen_top(&mut self, id: &String, pos: &Vec2) -> bool {
-        let can_generate = match id.as_str() {
-            "spawn" => true,
-            "c_room_2" => true,
-            "c_room_3" => true,
-            "m_room_0" => true,
-            "m_room_1" => true,
-            "m_room_3" => true,
-            _ => false,
-        };
+    fn gen_top(&mut self, id: &str, pos: &Vec2) -> bool {
+        let can_generate = matches!(
+            id,
+            "spawn" | "c_room_2" | "c_room_3" | "m_room_0" | "m_room_1" | "m_room_3"
+        );
 
         if can_generate {
             let variants = vec![
                 "c_room_0", "c_room_1", "d_room_3", "d_room_3", "d_room_3", "d_room_3", "d_room_3",
                 "exit", "m_room_0", "m_room_1", "m_room_2",
             ];
-            let mut pick = variants
-                .choose(&mut rand::thread_rng())
-                .unwrap_or_else(|| &"");
+            let mut pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
 
             if pick == &"" {
                 return false;
@@ -147,9 +136,7 @@ impl Map {
             let room_count = self.rooms.len();
 
             while (self.has_exit || room_count < 10) && pick == &"exit" {
-                pick = variants
-                    .choose(&mut rand::thread_rng())
-                    .unwrap_or_else(|| &"");
+                pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
 
                 if pick == &"" {
                     return false;
@@ -160,7 +147,7 @@ impl Map {
                 self.has_exit = true;
             }
 
-            let mut room = Room::prefab(&pick);
+            let mut room = Room::prefab(pick);
             room.pos = *pos + Vec2 { x: 0.0, y: 5.0 };
             self.rooms.push(room);
             true
@@ -169,18 +156,18 @@ impl Map {
         }
     }
 
-    fn gen_right(&mut self, id: &String, pos: &Vec2) -> bool {
-        let can_generate = match id.as_str() {
-            "spawn" => true,
-            "m_room_0" => true,
-            "c_room_0" => true,
-            "c_room_3" => true,
-            "exit" => true,
-            "m_room_1" => true,
-            "m_room_2" => true,
-            "m_room_3" => true,
-            _ => false,
-        };
+    fn gen_right(&mut self, id: &str, pos: &Vec2) -> bool {
+        let can_generate = matches!(
+            id,
+            "spawn"
+                | "m_room_0"
+                | "c_room_0"
+                | "c_room_3"
+                | "exit"
+                | "m_room_1"
+                | "m_room_2"
+                | "m_room_3"
+        );
 
         if can_generate {
             let variants = vec![
@@ -198,9 +185,7 @@ impl Map {
                 "d_room_0",
                 "p_room_orange",
             ];
-            let mut pick = variants
-                .choose(&mut rand::thread_rng())
-                .unwrap_or_else(|| &"");
+            let mut pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
 
             if pick == &"" {
                 return false;
@@ -209,9 +194,7 @@ impl Map {
             let room_count = self.rooms.len();
 
             while (self.has_exit || room_count < 10) && pick == &"exit" {
-                pick = variants
-                    .choose(&mut rand::thread_rng())
-                    .unwrap_or_else(|| &"");
+                pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
 
                 if pick == &"" {
                     return false;
@@ -222,7 +205,7 @@ impl Map {
                 self.has_exit = true;
             }
 
-            let mut room = Room::prefab(&pick);
+            let mut room = Room::prefab(pick);
             room.pos = *pos + Vec2 { x: 5.0, y: 0.0 };
             self.rooms.push(room);
             true
@@ -231,45 +214,29 @@ impl Map {
         }
     }
 
-    fn gen_bottom(&mut self, id: &String, pos: &Vec2) -> bool {
-        let can_generate = match id.as_str() {
-            "c_room_0" => true,
-            "c_room_1" => true,
-            "exit" => true,
-            "m_room_0" => true,
-            "m_room_1" => true,
-            "m_room_2" => true,
-            _ => false,
-        };
+    fn gen_bottom(&mut self, id: &str, pos: &Vec2) -> bool {
+        let can_generate = matches!(
+            id,
+            "c_room_0" | "c_room_1" | "exit" | "m_room_0" | "m_room_1" | "m_room_2"
+        );
 
         if can_generate {
             let variants = vec![
                 "c_room_2", "c_room_3", "d_room_1", "d_room_1", "d_room_1", "d_room_1", "d_room_1",
                 "m_room_0", "m_room_1", "m_room_3",
             ];
-            let pick = variants
-                .choose(&mut rand::thread_rng())
-                .unwrap_or_else(|| &"");
+            let pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
 
             if pick == &"" {
                 return false;
             }
 
-            let mut room = Room::prefab(&pick);
+            let mut room = Room::prefab(pick);
             room.pos = *pos + Vec2 { x: 0.0, y: -5.0 };
             self.rooms.push(room);
             true
         } else {
             false
-        }
-    }
-}
-
-impl Default for Map {
-    fn default() -> Self {
-        Self {
-            rooms: vec![],
-            has_exit: false,
         }
     }
 }

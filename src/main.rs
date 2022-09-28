@@ -9,11 +9,10 @@ mod traits;
 mod velocity;
 
 use crate::{
-    inventory::Inventory, map::Map, player::Player, tile::Tile, tile::TileType, velocity::Velocity,
+    inventory::Inventory, inventory::SortingDirection, inventory::SortingField, map::Map,
+    player::Player, tile::Tile, tile::TileType, velocity::Velocity,
 };
-use bevy::asset::Assets;
 use bevy::prelude::*;
-use bevy::render::texture::ImageSampler;
 use bevy::sprite::{collide_aabb, collide_aabb::Collision};
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
@@ -58,7 +57,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
 
     commands
         .spawn_bundle(SpriteBundle {
-            texture: asset_server.load("player_32x32.png"),
+            texture: asset_server.load("player_new_32x32.png"),
             transform: Transform::from_xyz(spawn_pos.x, spawn_pos.y + 6.0, 1.0),
             ..default()
         })
@@ -144,7 +143,6 @@ fn update(
                     Collision::Top => velocity.vel.y = 4.0,
                     Collision::Bottom => velocity.vel.y = -4.0,
                     Collision::Inside => velocity.vel.y = -32.0,
-                    _ => (),
                 }
             }
         }
@@ -152,6 +150,26 @@ fn update(
 }
 
 fn main() {
+    let mut inv = Inventory::random();
+
+    inv.sort(SortingField::Name, SortingDirection::Asc);
+    inv.inspect();
+
+    inv.sort(SortingField::Name, SortingDirection::Desc);
+    inv.inspect();
+
+    inv.sort(SortingField::Weight, SortingDirection::Asc);
+    inv.inspect();
+
+    inv.sort(SortingField::Weight, SortingDirection::Desc);
+    inv.inspect();
+
+    inv.sort(SortingField::Price, SortingDirection::Asc);
+    inv.inspect();
+
+    inv.sort(SortingField::Price, SortingDirection::Desc);
+    inv.inspect();
+
     App::new()
         .add_plugins(DefaultPlugins)
         .add_startup_system(setup)

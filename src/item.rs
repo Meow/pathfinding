@@ -1,13 +1,14 @@
 use crate::traits::inventorizable::Inventorizable;
 use bevy::prelude::*;
+use std::fmt;
 
 #[derive(Clone, Debug, Component)]
 pub struct Item {
-    name: String,
-    desc: String,
-    texture_path: String,
-    price: f32,
-    weight: f32,
+    pub name: String,
+    pub desc: String,
+    pub texture_path: String,
+    pub price: f32,
+    pub weight: f32,
 }
 
 impl Inventorizable for Item {
@@ -29,6 +30,16 @@ impl Inventorizable for Item {
 
     fn get_weight(&self) -> f32 {
         self.weight
+    }
+}
+
+impl fmt::Display for Item {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "Item(name: {}, price: {}, weight: {})",
+            self.name, self.price, self.weight
+        )
     }
 }
 
