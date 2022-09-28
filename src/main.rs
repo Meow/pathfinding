@@ -19,6 +19,7 @@ use bevy::sprite::{collide_aabb, collide_aabb::Collision};
 enum AppState {
     Playing,
     Restarting,
+    Inventory,
 }
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
@@ -102,6 +103,7 @@ fn move_player(
 
         if let Ok(mut cam_transform) = cam_query.get_single_mut() {
             cam_transform.translation = cam_transform.translation.lerp(transform.translation, 0.05);
+            cam_transform.translation.z = 2.0;
         }
     }
 }
@@ -113,6 +115,10 @@ fn update(
     mut query: Query<(&mut Player, &mut Transform, &mut Velocity)>,
     tile_query: Query<(&Tile, &Transform), Without<Player>>,
 ) {
+    if keys.just_pressed(KeyCode::Tab) && state.current() != &AppState::Inventory {
+        state.set(AppState::Inventory).unwrap();
+    }
+
     if let Ok((mut player, mut ply_transform, mut velocity)) = query.get_single_mut() {
         let max_speed = if keys.pressed(KeyCode::LShift) {
             player.max_speed * 2.0
@@ -205,7 +211,7 @@ fn update(
                 ply_transform.translation = blue_pos.translation
                     + Vec3 {
                         x: 32.0,
-                        z: 2.0,
+                        z: 1.0,
                         ..default()
                     }
             }
@@ -213,7 +219,7 @@ fn update(
                 ply_transform.translation = orange_pos.translation
                     + Vec3 {
                         x: -32.0,
-                        z: 2.0,
+                        z: 1.0,
                         ..default()
                     }
             }
@@ -232,27 +238,49 @@ fn restart(mut state: ResMut<State<AppState>>, mut commands: Commands, query: Qu
     }
 }
 
+fn spawn_gui(
+    mut state: ResMut<State<AppState>>,
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+) {
+    commands
+        .spawn_bundle(NodeBundle {
+            style: Style {
+                size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
+                justify_content: JustifyContent::SpaceBetween,
+                ..default()
+            },
+            color: Color::NONE.into(),
+            ..default()
+        })
+        .with_children(|parent| {
+            parent
+                .spawn_bundle(ButtonBundle {
+                    style: Style {
+                        size: Size::new(Val::Auto, Val::Px(65.0)),
+                        margin: UiRect::all(Val::Auto),
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
+                        ..default()
+                    },
+                    ..default()
+                })
+                .with_children(|parent| {
+                    parent.spawn_bundle(TextBundle::from_section(
+                        "THEORETICALLY THERE WOULD BE INVENTORY HERE",
+                        TextStyle {
+                            font: asset_server.load("fonts/Oswald-SemiBold.ttf"),
+                            font_size: 32.0,
+                            color: Color::rgb(0., 0., 0.),
+                        },
+                    ));
+                });
+        });
+}
+
+fn destroy_gui(mut commands: Commands) {}
+
 fn main() {
-    let mut inv = Inventory::random();
-
-    inv.sort(SortingField::Name, SortingDirection::Asc);
-    inv.inspect();
-
-    inv.sort(SortingField::Name, SortingDirection::Desc);
-    inv.inspect();
-
-    inv.sort(SortingField::Weight, SortingDirection::Asc);
-    inv.inspect();
-
-    inv.sort(SortingField::Weight, SortingDirection::Desc);
-    inv.inspect();
-
-    inv.sort(SortingField::Price, SortingDirection::Asc);
-    inv.inspect();
-
-    inv.sort(SortingField::Price, SortingDirection::Desc);
-    inv.inspect();
-
     App::new()
         .add_plugins(DefaultPlugins)
         .add_state(AppState::Playing)
@@ -263,6 +291,8 @@ fn main() {
                 .with_system(update),
         )
         .add_system_set(SystemSet::on_enter(AppState::Restarting).with_system(restart))
+        .add_system_set(SystemSet::on_enter(AppState::Inventory).with_system(spawn_gui))
+        .add_system_set(SystemSet::on_exit(AppState::Inventory).with_system(destroy_gui))
         .add_startup_system(set_msaa)
         .run();
 }
