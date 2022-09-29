@@ -227,6 +227,32 @@ fn update(
             inventory.inspect();
         }
 
+        if keys.just_pressed(KeyCode::F11) {
+            println!("Generating a random demo inventory and demonstrating sorting");
+
+            let mut inv = Inventory::random();
+
+            inv.inspect();
+
+            inv.sort(SortingField::Name, SortingDirection::Asc);
+            inv.inspect();
+
+            inv.sort(SortingField::Name, SortingDirection::Desc);
+            inv.inspect();
+
+            inv.sort(SortingField::Weight, SortingDirection::Asc);
+            inv.inspect();
+
+            inv.sort(SortingField::Weight, SortingDirection::Desc);
+            inv.inspect();
+
+            inv.sort(SortingField::Price, SortingDirection::Asc);
+            inv.inspect();
+
+            inv.sort(SortingField::Price, SortingDirection::Desc);
+            inv.inspect();
+        }
+
         let max_speed = if keys.pressed(KeyCode::LShift) {
             player.max_speed * 2.0
         } else if keys.pressed(KeyCode::LControl) {
@@ -542,6 +568,11 @@ fn spawn_gui(mut commands: Commands, asset_server: Res<AssetServer>) {
 
             parent.spawn_bundle(TextBundle::from_section(
                 "F10: Sort Inventory (Price, Descending)",
+                default_style.clone(),
+            ));
+
+            parent.spawn_bundle(TextBundle::from_section(
+                "F11: Generate Random Inventory and Sort",
                 default_style.clone(),
             ));
 
