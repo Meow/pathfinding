@@ -10,7 +10,7 @@ mod velocity;
 
 use crate::{
     inventory::Inventory, inventory::SortingDirection, inventory::SortingField, item::Item,
-    map::Map, player::Player, tile::Tile, tile::TileType, traits::*, velocity::Velocity,
+    map::Map, player::Player, tile::Tile, tile::TileType, velocity::Velocity,
 };
 use bevy::prelude::*;
 use bevy::sprite::{collide_aabb, collide_aabb::Collision};
@@ -179,6 +179,11 @@ fn update(
             }
 
             game_data.pathfinding_navigating = true;
+        }
+
+        if keys.just_pressed(KeyCode::F3) {
+            inventory.equip_items();
+            inventory.inspect();
         }
 
         if keys.just_pressed(KeyCode::F4) {
@@ -496,6 +501,11 @@ fn spawn_gui(mut commands: Commands, asset_server: Res<AssetServer>) {
 
             parent.spawn_bundle(TextBundle::from_section(
                 "F2: Auto-Navigate to Exit",
+                default_style.clone(),
+            ));
+
+            parent.spawn_bundle(TextBundle::from_section(
+                "F3: Equip Items (if possible)",
                 default_style.clone(),
             ));
 

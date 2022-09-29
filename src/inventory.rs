@@ -152,6 +152,28 @@ impl Inventory {
         false
     }
 
+    pub fn can_equip(&self, equipment: &Equipment) -> bool {
+        self.equipment.len() >= self.max_equipment as usize
+            || self.equipment.iter().any(|e| e.slot == equipment.slot)
+    }
+
+    pub fn equip_items(&mut self) {
+        let mut ids: Vec<u32> = vec![];
+
+        for item in self.items.iter() {
+            let eq = item.clone().into();
+
+            if self.can_equip(&eq) {
+                self.equipment.push(eq);
+                ids.push(item.id);
+            }
+        }
+
+        for id in ids.iter() {
+            self.take_item(*id);
+        }
+    }
+
     pub fn total_damage_mod(&self) -> f32 {
         self.equipment.iter().map(|e| e.get_damage_mod()).sum()
     }
@@ -182,16 +204,6 @@ impl Inventory {
 
     pub fn find_item(&self, id: u32) -> Option<(usize, &Item)> {
         for (i, item) in self.items.iter().enumerate() {
-            if item.id == id {
-                return Some((i, item));
-            }
-        }
-
-        None
-    }
-
-    pub fn find_item_mut(&mut self, id: u32) -> Option<(usize, &mut Item)> {
-        for (i, mut item) in self.items.iter_mut().enumerate() {
             if item.id == id {
                 return Some((i, item));
             }
