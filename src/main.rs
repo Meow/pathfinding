@@ -158,6 +158,7 @@ fn move_player(
     }
 }
 
+#[allow(clippy::too_many_arguments)]
 fn update(
     time: Res<Time>,
     keys: Res<Input<KeyCode>>,
@@ -232,25 +233,25 @@ fn update(
             player.max_speed * 0.5
         } else {
             player.max_speed
-        };
+        } * (1.0 + inventory.total_speed_mod());
 
         velocity.accel = Vec2::default();
 
         if !game_data.pathfinding_navigating {
             if keys.pressed(KeyCode::W) {
-                velocity.accel.y = 1500.0;
+                velocity.accel.y = 2000.0;
             }
 
             if keys.pressed(KeyCode::S) {
-                velocity.accel.y = -1500.0;
+                velocity.accel.y = -2000.0;
             }
 
             if keys.pressed(KeyCode::A) {
-                velocity.accel.x = -1500.0;
+                velocity.accel.x = -2000.0;
             }
 
             if keys.pressed(KeyCode::D) {
-                velocity.accel.x = 1500.0;
+                velocity.accel.x = 2000.0;
             }
 
             velocity.vel = velocity

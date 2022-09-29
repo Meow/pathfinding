@@ -132,7 +132,7 @@ impl Inventory {
     pub fn add_item(&mut self, item: Item) -> bool {
         if !item.valid()
             || self.items.len() as u32 >= self.max_items
-            || self.total_weight() + item.weight > self.max_weight
+            || self.total_weight() + item.weight > self.max_weight * (1.0 + self.total_weight_mod())
         {
             return false;
         }
@@ -153,8 +153,8 @@ impl Inventory {
     }
 
     pub fn can_equip(&self, equipment: &Equipment) -> bool {
-        self.equipment.len() >= self.max_equipment as usize
-            || self.equipment.iter().any(|e| e.slot == equipment.slot)
+        self.equipment.len() < self.max_equipment as usize
+            && !self.equipment.iter().any(|e| e.slot == equipment.slot)
     }
 
     pub fn equip_items(&mut self) {
@@ -174,10 +174,12 @@ impl Inventory {
         }
     }
 
+    #[allow(dead_code)]
     pub fn total_damage_mod(&self) -> f32 {
         self.equipment.iter().map(|e| e.get_damage_mod()).sum()
     }
 
+    #[allow(dead_code)]
     pub fn total_defense_mod(&self) -> f32 {
         self.equipment.iter().map(|e| e.get_defense_mod()).sum()
     }
@@ -194,10 +196,12 @@ impl Inventory {
         self.items.iter().map(|e| e.get_weight()).sum()
     }
 
+    #[allow(dead_code)]
     pub fn total_price(&self) -> f32 {
         self.items.iter().map(|e| e.get_price()).sum()
     }
 
+    #[allow(dead_code)]
     pub fn total_items(&self) -> usize {
         self.items.len()
     }
@@ -227,6 +231,7 @@ impl Inventory {
         }
     }
 
+    #[allow(dead_code)]
     pub fn random() -> Self {
         let mut rng = rand::thread_rng();
         let mut inv = Inventory::default();
