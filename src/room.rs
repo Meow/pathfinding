@@ -1,4 +1,5 @@
 use crate::tile::{Tile, TileType};
+use crate::traits::*;
 use bevy::prelude::*;
 use std::fmt;
 
@@ -10,8 +11,11 @@ pub struct Room {
     pub id: String,
 }
 
-impl Room {
-    pub fn prefab(id: &str) -> Self {
+impl Prefabricatable for Room {
+    fn prefab(id: &str) -> Self {
+        // This code segment automatically generated
+        // by `prefabs/generate.rb`.
+        // You should not modify this manually.
         match id {
             "c_room_0" => Room {
                 id: "c_room_0".to_string(),

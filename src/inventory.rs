@@ -1,7 +1,6 @@
 use crate::equipment::Equipment;
 use crate::item::Item;
-use crate::traits::equipable::Equipable;
-use crate::traits::inventorizable::Inventorizable;
+use crate::traits::*;
 use bevy::prelude::*;
 use rand::Rng;
 use std::cmp::Ordering;
@@ -130,6 +129,29 @@ impl Inventory {
         }
     }
 
+    pub fn add_item(&mut self, item: Item) -> bool {
+        if !item.valid()
+            || self.items.len() as u32 >= self.max_items
+            || self.total_weight() + item.weight > self.max_weight
+        {
+            return false;
+        }
+
+        self.items.push(item);
+
+        true
+    }
+
+    pub fn take_item(&mut self, item_id: u32) -> bool {
+        if let Some((index, _item)) = self.find_item(item_id) {
+            self.items.remove(index);
+
+            return true;
+        }
+
+        false
+    }
+
     pub fn total_damage_mod(&self) -> f32 {
         self.equipment.iter().map(|e| e.get_damage_mod()).sum()
     }
@@ -144,6 +166,38 @@ impl Inventory {
 
     pub fn total_weight_mod(&self) -> f32 {
         self.equipment.iter().map(|e| e.get_weight_mod()).sum()
+    }
+
+    pub fn total_weight(&self) -> f32 {
+        self.items.iter().map(|e| e.get_weight()).sum()
+    }
+
+    pub fn total_price(&self) -> f32 {
+        self.items.iter().map(|e| e.get_price()).sum()
+    }
+
+    pub fn total_items(&self) -> usize {
+        self.items.len()
+    }
+
+    pub fn find_item(&self, id: u32) -> Option<(usize, &Item)> {
+        for (i, item) in self.items.iter().enumerate() {
+            if item.id == id {
+                return Some((i, item));
+            }
+        }
+
+        None
+    }
+
+    pub fn find_item_mut(&mut self, id: u32) -> Option<(usize, &mut Item)> {
+        for (i, mut item) in self.items.iter_mut().enumerate() {
+            if item.id == id {
+                return Some((i, item));
+            }
+        }
+
+        None
     }
 
     pub fn inspect(&self) {
@@ -183,9 +237,13 @@ impl fmt::Display for Inventory {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "Inventory(items: {}, equipment: {})",
+            "Inventory(items: {} ({} max), equipment: {} ({} max), weight: {:.2}kg ({:.2}kg max))",
             self.items.len(),
-            self.equipment.len()
+            self.max_items,
+            self.equipment.len(),
+            self.max_equipment,
+            self.total_weight(),
+            self.max_weight * (1.0 + self.total_weight_mod()),
         )
     }
 }

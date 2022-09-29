@@ -1,5 +1,6 @@
 use crate::room::Room;
 use crate::tile::{Tile, TileType};
+use crate::traits::*;
 use bevy::prelude::*;
 use rand::{seq::SliceRandom, Rng};
 
