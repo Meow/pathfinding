@@ -582,7 +582,7 @@ fn spawn_gui(mut commands: Commands, asset_server: Res<AssetServer>) {
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
+        .add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
         .add_message::<PathfindingEvent>()
         .insert_state(AppState::Playing)
         .add_systems(OnEnter(AppState::Playing), (setup, spawn_gui))
