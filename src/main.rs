@@ -74,7 +74,8 @@ fn collide(a_pos: Vec3, a_size: Vec2, b_pos: Vec3, b_size: Vec2) -> Option<Colli
     let b_max = b_pos.truncate() + b_size / 2.0;
 
     if a_min.x < b_max.x && a_max.x > b_min.x && a_min.y < b_max.y && a_max.y > b_min.y {
-        let (x_collision, x_depth) = if a_min.x < b_min.x && a_max.x > b_min.x && a_max.x < b_max.x {
+        let (x_collision, x_depth) = if a_min.x < b_min.x && a_max.x > b_min.x && a_max.x < b_max.x
+        {
             (Collision::Left, b_min.x - a_max.x)
         } else if a_min.x > b_min.x && a_min.x < b_max.x && a_max.x > b_max.x {
             (Collision::Right, a_min.x - b_max.x)
@@ -82,7 +83,8 @@ fn collide(a_pos: Vec3, a_size: Vec2, b_pos: Vec3, b_size: Vec2) -> Option<Colli
             (Collision::Inside, -f32::INFINITY)
         };
 
-        let (y_collision, y_depth) = if a_min.y < b_min.y && a_max.y > b_min.y && a_max.y < b_max.y {
+        let (y_collision, y_depth) = if a_min.y < b_min.y && a_max.y > b_min.y && a_max.y < b_max.y
+        {
             (Collision::Bottom, b_min.y - a_max.y)
         } else if a_min.y > b_min.y && a_min.y < b_max.y && a_max.y > b_max.y {
             (Collision::Top, a_min.y - b_max.y)
@@ -499,7 +501,18 @@ fn restart(
     state: Res<State<AppState>>,
     mut next_state: ResMut<NextState<AppState>>,
     mut commands: Commands,
-    query: Query<Entity>,
+    // Only despawn the entities the game spawned (sprites, camera, UI), and
+    // only root entities: `despawn` is recursive, so UI children (which have a
+    // `ChildOf`) are cleaned up via their parent. This avoids touching the
+    // resource-backed and other internal entities that a bare `Query<Entity>`
+    // would match in Bevy 0.19.
+    query: Query<
+        Entity,
+        (
+            Without<ChildOf>,
+            Or<(With<Sprite>, With<Camera>, With<Node>)>,
+        ),
+    >,
 ) {
     for ent in &query {
         commands.entity(ent).despawn();
