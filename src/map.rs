@@ -2,7 +2,7 @@ use crate::room::Room;
 use crate::tile::{Tile, TileType};
 use crate::traits::*;
 use bevy::prelude::*;
-use rand::{Rng, seq::SliceRandom};
+use rand::{RngExt, seq::IndexedRandom};
 
 #[derive(Clone, Debug, Resource, Default)]
 pub struct Map {
@@ -62,13 +62,13 @@ impl Map {
     }
 
     fn generate_items(&mut self, item_count: u32) {
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
         let mut items = 0;
 
         while items < item_count {
             for room in self.rooms.iter() {
                 for tile in room.tiles.iter() {
-                    if tile.tile_type == TileType::Brush && rng.r#gen::<f32>() > 0.99 {
+                    if tile.tile_type == TileType::Brush && rng.random::<f32>() > 0.99 {
                         self.objects.push(Tile {
                             pos: room.pos + tile.pos,
                             tile_type: TileType::Item,
@@ -125,14 +125,14 @@ impl Map {
                 "m_room_3",
                 "p_room_blue",
             ];
-            let mut pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
+            let mut pick = variants.choose(&mut rand::rng()).unwrap_or(&"");
 
             if pick == &"" {
                 return false;
             }
 
             while (self.has_exit && pick == &"exit") || (self.has_blue && pick == &"p_room_blue") {
-                pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
+                pick = variants.choose(&mut rand::rng()).unwrap_or(&"");
 
                 if pick == &"" {
                     return false;
@@ -165,7 +165,7 @@ impl Map {
                 "c_room_0", "c_room_1", "d_room_3", "d_room_3", "d_room_3", "d_room_3", "d_room_3",
                 "exit", "m_room_0", "m_room_1", "m_room_2",
             ];
-            let mut pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
+            let mut pick = variants.choose(&mut rand::rng()).unwrap_or(&"");
 
             if pick == &"" {
                 return false;
@@ -174,7 +174,7 @@ impl Map {
             let room_count = self.rooms.len();
 
             while (self.has_exit || room_count < 10) && pick == &"exit" {
-                pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
+                pick = variants.choose(&mut rand::rng()).unwrap_or(&"");
 
                 if pick == &"" {
                     return false;
@@ -223,7 +223,7 @@ impl Map {
                 "d_room_0",
                 "p_room_orange",
             ];
-            let mut pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
+            let mut pick = variants.choose(&mut rand::rng()).unwrap_or(&"");
 
             if pick == &"" {
                 return false;
@@ -232,7 +232,7 @@ impl Map {
             while (self.has_exit && pick == &"exit")
                 || (self.has_orange && pick == &"p_room_orange")
             {
-                pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
+                pick = variants.choose(&mut rand::rng()).unwrap_or(&"");
 
                 if pick == &"" {
                     return false;
@@ -265,7 +265,7 @@ impl Map {
                 "c_room_2", "c_room_3", "d_room_1", "d_room_1", "d_room_1", "d_room_1", "d_room_1",
                 "m_room_0", "m_room_1", "m_room_3",
             ];
-            let pick = variants.choose(&mut rand::thread_rng()).unwrap_or(&"");
+            let pick = variants.choose(&mut rand::rng()).unwrap_or(&"");
 
             if pick == &"" {
                 return false;

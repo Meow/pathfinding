@@ -1,7 +1,7 @@
 use crate::equipment::Equipment;
 use crate::traits::*;
 use bevy::prelude::*;
-use rand::Rng;
+use rand::RngExt;
 use std::fmt;
 
 #[derive(Clone, Debug, Component)]
@@ -17,7 +17,7 @@ pub struct Item {
 
 impl Item {
     pub fn random_prefab() -> Self {
-        let n = rand::thread_rng().r#gen::<f32>();
+        let n = rand::rng().random::<f32>();
 
         if n > 0.99 {
             Self::prefab("garry")

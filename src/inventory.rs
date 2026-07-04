@@ -2,7 +2,7 @@ use crate::equipment::Equipment;
 use crate::item::Item;
 use crate::traits::*;
 use bevy::prelude::*;
-use rand::Rng;
+use rand::RngExt;
 use std::cmp::Ordering;
 use std::fmt;
 
@@ -233,15 +233,15 @@ impl Inventory {
 
     #[allow(dead_code)]
     pub fn random() -> Self {
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
         let mut inv = Inventory::default();
 
         for n in 0..inv.max_items {
             inv.items.push(Item {
                 name: format!("Random item {}", n),
                 desc: "This item was randomly generated".to_string(),
-                weight: rng.r#gen::<f32>(),
-                price: rng.r#gen::<f32>() * 100.0,
+                weight: rng.random::<f32>(),
+                price: rng.random::<f32>() * 100.0,
                 ..default()
             });
         }
