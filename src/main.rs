@@ -531,7 +531,7 @@ fn spawn_gui(mut commands: Commands, asset_server: Res<AssetServer>) {
             Text::new(text),
             TextFont {
                 font: font.clone().into(),
-                font_size: FontSize::Px(28.0),
+                font_size: FontSize::Px(22.0),
                 ..default()
             },
             TextColor(Color::srgb(0.9, 0.9, 0.9)),
@@ -543,10 +543,10 @@ fn spawn_gui(mut commands: Commands, asset_server: Res<AssetServer>) {
             Node {
                 width: Val::Percent(25.0),
                 height: Val::Percent(100.0),
-                justify_content: JustifyContent::Center,
+                justify_content: JustifyContent::Start,
                 flex_direction: FlexDirection::ColumnReverse,
-                align_items: AlignItems::Center,
-                padding: UiRect::all(Val::Px(64.0)),
+                align_items: AlignItems::Start,
+                padding: UiRect::all(Val::Px(16.0)),
                 margin: UiRect {
                     left: Val::Auto,
                     ..default()
@@ -560,7 +560,7 @@ fn spawn_gui(mut commands: Commands, asset_server: Res<AssetServer>) {
                 Text::new("CONTROLS"),
                 TextFont {
                     font: font.clone().into(),
-                    font_size: FontSize::Px(48.0),
+                    font_size: FontSize::Px(32.0),
                     ..default()
                 },
                 TextColor(Color::srgb(0.45, 0.35, 1.0)),
