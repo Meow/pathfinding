@@ -4,7 +4,7 @@ use crate::traits::*;
 use bevy::prelude::*;
 use rand::{seq::SliceRandom, Rng};
 
-#[derive(Clone, Debug, Component, Default)]
+#[derive(Clone, Debug, Resource, Default)]
 pub struct Map {
     pub rooms: Vec<Room>,
     pub objects: Vec<Tile>,
