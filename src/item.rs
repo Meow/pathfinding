@@ -17,7 +17,7 @@ pub struct Item {
 
 impl Item {
     pub fn random_prefab() -> Self {
-        let n = rand::thread_rng().gen::<f32>();
+        let n = rand::thread_rng().r#gen::<f32>();
 
         if n > 0.99 {
             Self::prefab("garry")

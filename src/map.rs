@@ -2,7 +2,7 @@ use crate::room::Room;
 use crate::tile::{Tile, TileType};
 use crate::traits::*;
 use bevy::prelude::*;
-use rand::{seq::SliceRandom, Rng};
+use rand::{Rng, seq::SliceRandom};
 
 #[derive(Clone, Debug, Resource, Default)]
 pub struct Map {
@@ -68,7 +68,7 @@ impl Map {
         while items < item_count {
             for room in self.rooms.iter() {
                 for tile in room.tiles.iter() {
-                    if tile.tile_type == TileType::Brush && rng.gen::<f32>() > 0.99 {
+                    if tile.tile_type == TileType::Brush && rng.r#gen::<f32>() > 0.99 {
                         self.objects.push(Tile {
                             pos: room.pos + tile.pos,
                             tile_type: TileType::Item,

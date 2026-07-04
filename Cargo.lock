@@ -4051,7 +4051,7 @@ dependencies = [
 
 [[package]]
 name = "pathfinding"
-version = "1.0.0"
+version = "1.1.0"
 dependencies = [
  "bevy",
  "pathfinding 3.0.14",

@@ -240,8 +240,8 @@ impl Inventory {
             inv.items.push(Item {
                 name: format!("Random item {}", n),
                 desc: "This item was randomly generated".to_string(),
-                weight: rng.gen::<f32>(),
-                price: rng.gen::<f32>() * 100.0,
+                weight: rng.r#gen::<f32>(),
+                price: rng.r#gen::<f32>() * 100.0,
                 ..default()
             });
         }
